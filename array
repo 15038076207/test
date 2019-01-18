@@ -1,0 +1,88 @@
+package test;
+//
+//
+import java.util.Scanner;
+import java.util.Date;
+public class t3 {
+	public static void main(String[] args) {
+		
+		/*int[] arr = getArray();
+		print(arr);
+		bubbleSort(arr);
+		print(arr);
+		
+		int[][] arr2 = get2DArray();
+		print(arr2);
+		bubbleSort(arr2);
+		print(arr2);
+		*/
+	}
+	public static int[] getArray() {
+		Scanner input = new Scanner(System.in);
+		System.out.println("Please set the length");
+		int arrayLength = input.nextInt();
+		int[] arr = new int[arrayLength];
+		for (int j = 0;j < arrayLength;j++) {
+			System.out.print("The " + (j+1) + "th number is:");
+			arr[j] = input.nextInt();
+		}
+		return arr;
+	}
+	
+	public static int[][] get2DArray() {
+		Scanner input = new Scanner(System.in);
+		System.out.println("Please set the first length");
+		int arrayLength = input.nextInt();
+		int[][] arr = new int[arrayLength][];
+		for(int i = 0;i <arrayLength;i++) {
+			System.out.println("Set the "+(i+1)+"th second length");
+			int array2Length = input.nextInt();
+			arr[i] = new int[array2Length];
+			for (int j = 0;j < array2Length;j++) {
+				System.out.print("The " +(i+1)+ "th first length "+ (j+1) + "th number is:");
+				arr[i][j] = input.nextInt();
+			}
+		}
+		return arr;
+	}
+	
+	public static void bubbleSort(int[] arr) {	
+		for (int j = 0;j<arr.length;j++) {
+			for (int i = 0;i<(arr.length-1);i++) {
+				if (arr[i]>arr[i+1]) {
+					int temp = arr[i];
+					arr[i] = arr[i+1];
+					arr[i+1] = temp;
+				}
+			}	
+		}
+	}
+	public static void bubbleSort(int[][] arr) {	
+		for (int k = 0;k<arr.length;k++) {
+			for (int j = 0;j<arr[k].length;j++) {
+				for (int i = 0;i<(arr[k].length-1);i++) {
+					if (arr[k][i]>arr[k][i+1]) {
+						int temp = arr[k][i];
+						arr[k][i] = arr[k][i+1];
+						arr[k][i+1] = temp;
+					}
+				}	
+			}
+		}
+	}
+	public static void print(int[] arr) {
+		for (int j = 0;j<arr.length;j++) {
+			System.out.print(arr[j] + " ");
+		}
+		System.out.println();
+	}
+	
+	public static void print(int[][] arr) {
+		for (int i = 0;i<arr.length;i++) {
+			for (int j = 0;j<arr[i].length;j++) {
+				System.out.print(arr[i][j] + " ");
+			}
+			System.out.println();
+		}
+	}
+}
