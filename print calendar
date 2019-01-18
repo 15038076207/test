@@ -1,0 +1,146 @@
+package test;
+//print calendar
+//return Days;							test3
+		/*switch (Days%7) {				test4
+		case 0:return 2;
+		case 1:return 3;
+		case 2:return 4;
+		case 3:return 5;
+		case 4:return 6;
+		case 5:return 0;
+		case 6:return 1;
+		default:return -1;
+		}*/
+import java.util.Scanner;
+public class t2 {
+	public static void main(String[] args) {
+		Scanner input = new Scanner(System.in);
+		
+		int year = 0;
+		System.out.println("please enter the year");		
+		while (year<=0) {
+			int year1 = input.nextInt();
+			year = year1;
+			if (year<=0) {
+				System.out.println("please enter the year again");
+				continue;
+			}
+		}
+		
+		int month = -1;
+		System.out.println("please enter the month");
+		
+		while (month>12||month<1) {
+			int month1 = input.nextInt();
+			month = month1;
+			if (month>12||month<1) {
+				System.out.println("please enter the month again");
+				
+				continue;
+			}
+		}
+		//System.out.println(getBlankDays(year,month));				test1
+		//System.out.println(getDays(month,year));					test2
+		
+		System.out.println(year + "." + month);
+		System.out.println("----------------------------");
+		System.out.println("Sun Mon Tue Wed Thr Fri Sat");
+		
+		//print(getBlankDays(year,month),getDays(month,year),year);
+		printCalendar(year,month);
+		
+	}
+	public static void printCalendar(int year,int month) {
+		print(getBlankDays(year,month),getDays(month,year),year);
+	}
+	public static int getDays(int month,int year) {		//给出每个月份的天数
+		switch (month) {
+		case 1:return 31;
+		case 2:
+			if (isLeapYears(year)) {
+				return 29;
+			}else{
+				return 28;
+			}											//闰年一定要做个判定，这里直接就这样可以，因为这个只更改月份，下面那个就错了
+		case 3:return 31;
+		case 4:return 30;
+		case 5:return 31;
+		case 6:return 30;
+		case 7:return 31;
+		case 8:return 31;
+		case 9:return 30;
+		case 10:return 31;
+		case 11:return 30;
+		case 12:return 31;
+		default : return 0;
+		}
+	}
+	public static int getBlankDays(int year,int month) {
+		int Days = 0;
+		if (year <= 0) {									//年份错误判定，否则返回-1
+			return -1;
+		}
+		if (getDays(month,year) == 0) {						//错误判定，月份错误不在1-12之间 
+			return -1;										//返回-1
+		}
+		if (year < 2019) {
+			for(int i = 2018;i > year;i--) {				//坑1 如果不反向加年份会多加一年
+				if (isLeapYears(i) == true) {				//坑2 判断是闰年时候忘记给加个判断语句导致一旦输入闰年只加366
+					Days +=366;
+				}else {
+					Days +=365;
+				} 
+			}
+			for(int j = month;j <= 12;j++) {				//月份无所谓
+				Days += getDays(j,year);
+			}
+			int blank = 7 - (Days-2) % 7;					//这个小于2019年的算式是由于倒着算年份所以除出来的也该倒着找空格
+			if (blank == 7) {
+				return (0);									//如果是7的话会打一大排空格，并且没有卵用，影响格式
+			}else {
+				return (blank);
+			}												//因为2019年1月1日是星期2，所以算年份时应该这么算
+			
+		}else {
+			for(int i = 2019;i < year;i++) {
+				if (isLeapYears(i) == true) {				//不要忘记进行判定是否是true
+					Days +=366;
+				}else {
+					Days +=365;
+				} 
+			}
+			for(int j = 1;j < month;j++) {					//常规操作
+				Days += getDays(j,year);
+			}
+			return ((Days + 2) % 7);						//加2 的原因依然是因为2019年1月1日是星期2
+		}
+	}
+	public static void print(int Blank,int Days,int year) {
+		if (Blank == -1) {
+			System.out.println("System error-year or month");		//报错，虽然用不上
+		}else {
+			for(int j = 1;j<=(Blank + Days);j++) {			//注意加上空白格进行回车
+				if (j<=Blank) {
+					System.out.print("    ");				//在需要打空白的地方打4格
+				}else if (j%7 == 0) {
+					System.out.println(j-Blank);			//如果打够7格就回车，输出j-空白格个数的数字
+				}else {
+					if(j<(10+Blank)) {
+						System.out.print(j-Blank);			//小于10的时候多打一个空格对齐格式
+						System.out.print("   ");
+					}else {
+						System.out.print(j-Blank);			//大于10打2格空格
+						System.out.print("  ");
+					}
+				}
+			}
+		}
+	}
+	public static boolean isLeapYears(int year){
+		if (year%400 == 0||year%4 == 0 && year%100 !=0) {	//判定是否为闰年的方法
+			return true;
+		}else {
+			return false;
+		}
+	}
+}
